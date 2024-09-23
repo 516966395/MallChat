@@ -7,6 +7,7 @@ import com.abin.mallchat.common.common.config.ThreadPoolConfig;
 import com.abin.mallchat.common.common.constant.RedisKey;
 import com.abin.mallchat.common.common.event.UserOfflineEvent;
 import com.abin.mallchat.common.common.event.UserOnlineEvent;
+import com.abin.mallchat.common.common.utils.AssertUtil;
 import com.abin.mallchat.common.common.utils.RedisUtils;
 import com.abin.mallchat.common.user.dao.UserDao;
 import com.abin.mallchat.common.user.domain.dto.WSChannelExtraDTO;
@@ -107,7 +108,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         //生成随机不重复的登录码,并将channel存在本地cache中
         Integer code = generateLoginCode(channel);
         //请求微信接口，获取登录码地址
-        WxMpQrCodeTicket wxMpQrCodeTicket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(code, (int) EXPIRE_TIME.getSeconds());
+//        WxMpQrCodeTicket wxMpQrCodeTicket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(code, (int) EXPIRE_TIME.getSeconds());
+        Integer uid = RedisUtils.get(RedisKey.getKey("login:qrcode:defaultUid"), Integer.class);
+        AssertUtil.isNotEmpty(uid, "未设置登入用户!");
+        WxMpQrCodeTicket wxMpQrCodeTicket = new WxMpQrCodeTicket();
+        wxMpQrCodeTicket.setUrl(String.format("http://chat.maivc.com/capi/login/public/qrcode?loginCode=%s&uid=%s", code, uid));
         //返回给前端（channel必在本地）
         sendMsg(channel, WSAdapter.buildLoginResp(wxMpQrCodeTicket));
     }

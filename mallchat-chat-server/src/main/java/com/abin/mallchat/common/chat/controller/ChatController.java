@@ -96,8 +96,9 @@ public class ChatController {
     @GetMapping("/msg/read")
     @ApiOperation("获取消息的已读未读总数")
     public ApiResult<Collection<MsgReadInfoDTO>> getReadInfo(@Valid ChatMessageReadInfoReq request) {
-        Long uid = RequestHolder.get().getUid();
-        return ApiResult.success(chatService.getMsgReadInfo(uid, request));
+//        Long uid = RequestHolder.get().getUid();
+//        return ApiResult.success(chatService.getMsgReadInfo(uid, request));
+        return ApiResult.success();
     }
 
     @PutMapping("/msg/read")

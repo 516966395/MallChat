@@ -88,4 +88,18 @@ public class MessageDao extends ServiceImpl<MessageMapper, Message> {
         }
         return false;
     }
+
+    /**
+     * 根据房间ID逻辑删除消息
+     *
+     * @param roomId  房间ID
+     * @return 是否删除成功
+     */
+    public Boolean clearByRoomId(Long roomId) {
+        LambdaUpdateWrapper<Message> wrapper = new UpdateWrapper<Message>().lambda()
+                .eq(Message::getRoomId, roomId)
+                .eq(Message::getStatus, MessageStatusEnum.NORMAL.getStatus())
+                .set(Message::getStatus, MessageStatusEnum.DELETE.getStatus());
+        return this.update(wrapper);
+    }
 }

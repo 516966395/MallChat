@@ -20,7 +20,8 @@ import java.util.Optional;
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+//    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "X-Auth-Token";
     public static final String AUTHORIZATION_SCHEMA = "Bearer ";
     public static final String ATTRIBUTE_UID = "uid";
 
