@@ -35,7 +35,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/capi/login/public")
 @Api(tags = "用户登录相关接口")
-public class LoginController {//贾叔 我公司最近搬迁了 离这里有点远 我也打算搬到公司附近  租房合同也快到期了  我不准备续了
+public class LoginController {
 
     @Autowired
     @Lazy
